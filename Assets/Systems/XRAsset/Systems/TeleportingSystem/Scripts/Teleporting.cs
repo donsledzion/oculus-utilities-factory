@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -6,8 +7,9 @@ using XRInputManager;
 
 namespace TeleportingSystem
 {
-    public class Teleporting : MonoBehaviourSingleton<Teleporting>
+    public class Teleporting : MonoBehaviour
     {
+        public static Teleporting Instance { get; private set; }
         private const float LERP_SMOOTH = 10f;
         public event System.Action<bool> onChangeVisabilityTeleportsEvent;
 
@@ -16,6 +18,11 @@ namespace TeleportingSystem
         [SerializeField] LayerMask teleportingMask = default;
         [SerializeField] LayerMask teleportingCheckLayer = default;
         [SerializeField] float maxTeleportDistance = 15f;
+
+        [Space]
+        [SerializeField] Transform teleportObject = default;
+        [SerializeField] XRController leftHand = default;
+        [SerializeField] XRController rightHand = default;
 
         [Space]
         [Header("Pointers")]
@@ -29,14 +36,13 @@ namespace TeleportingSystem
         [SerializeField] Material goodDestinationPoint = default;
         [SerializeField] Material badDestinationPoint = default;
 
-
-        private Transform teleportObject = default;
-        private XRController leftHand = default;
-        private XRController rightHand = default;
-
         private bool isEnabled = true;
         private Vector3 raycastPosition = Vector3.zero;
         private MeshRenderer destinationPointMeshRenderer;
+
+        // ==========================================================================
+        private TeleportCurve teleportCurve; // Needed to add teleportCurve component
+        // ==========================================================================
 
         /// <summary>
         /// Flaga informująca, czy teleportacja jest możliwa
@@ -58,6 +64,15 @@ namespace TeleportingSystem
         private Transform TeleportPointer { get; set; }
         private Teleporter Teleporter { get; set; }
 
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        private void Reset()
+        {
+            if (teleportObject == null) teleportObject = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
         private void OnDisable()
         {
@@ -66,13 +81,10 @@ namespace TeleportingSystem
 
         private void Start()
         {
-            teleportObject = GameObject.FindGameObjectWithTag("Player").transform;
-
-            var controllers = FindObjectsOfType<XRController>();
-            leftHand = controllers.FirstOrDefault(x => x.controllerNode == XRNode.LeftHand);
-            rightHand = controllers.FirstOrDefault(x => x.controllerNode == XRNode.RightHand);
-
             destinationPointMeshRenderer = destinationPoint.GetComponent<MeshRenderer>();
+            //==================================================================================
+            teleportCurve = GetComponent<TeleportCurve>(); // Assigning teleportCurve reference
+            //==================================================================================
         }
 
         private void Update()
@@ -82,14 +94,12 @@ namespace TeleportingSystem
             Transform teleportHand = null;
             if (InputHelpers.IsPressed(InputDevices.GetDeviceAtXRNode(rightHand.controllerNode), teleportButtonRight, out bool isPressedRight, .7f))
             {
-                XRBaseInteractor interactor = rightHand.GetComponent<XRBaseInteractor>();
-                if (isPressedRight && interactor.selectTarget == null) teleportHand = rightHand.transform;
+                if (isPressedRight) teleportHand = rightHand.transform;
             }
 
             if (InputHelpers.IsPressed(InputDevices.GetDeviceAtXRNode(leftHand.controllerNode), teleportButtonLeft, out bool isPressedLeft, .7f))
             {
-                XRBaseInteractor interactor = leftHand.GetComponent<XRBaseInteractor>();
-                if (isPressedLeft && interactor.selectTarget == null) teleportHand = leftHand.transform;
+                if (isPressedLeft) teleportHand = leftHand.transform;
             }
 
             if (!IsTeleporting && teleportHand != null) OnStartTeleport(teleportHand);
@@ -149,11 +159,10 @@ namespace TeleportingSystem
                 TeleportingEfectVisability(false);
             }
 
-            linerRenderer.SetPosition(0, TeleportPointer.position);
-
-            Vector3 lerpDestination = Vector3.Lerp(destinationPoint.position, raycastPosition, LERP_SMOOTH * Time.deltaTime);
-            linerRenderer.SetPosition(1, lerpDestination);
-            destinationPoint.position = lerpDestination;
+            /*
+             * Content moved from here to DrawTrace() method
+             */
+            DrawTrace();
         }
 
         private void OnEndTeleport()
@@ -162,7 +171,6 @@ namespace TeleportingSystem
             {
                 Teleporter.TeleportTo(teleportObject, raycastPosition, teleportObject.rotation);
             }
-
             ExitTeleport();
         }
 
@@ -196,5 +204,20 @@ namespace TeleportingSystem
                 destinationPointMeshRenderer.material = badDestinationPoint;
             }
         }
+
+        private void DrawTrace()
+        {
+            Vector3 lerpDestination = Vector3.Lerp(destinationPoint.position, raycastPosition, LERP_SMOOTH * Time.deltaTime);
+            if (linerRenderer.positionCount==2)
+            {
+                linerRenderer.SetPosition(0, TeleportPointer.position);
+                linerRenderer.SetPosition(1, lerpDestination);
+            } else if(linerRenderer.positionCount>2)
+            {
+                teleportCurve.DrawCurve(TeleportPointer.position, lerpDestination);
+            }
+            destinationPoint.position = lerpDestination;
+        }
     }
+
 }

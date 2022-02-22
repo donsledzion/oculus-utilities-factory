@@ -12,11 +12,12 @@ namespace TeleportingSystem
 
         protected virtual void Awake()
         {
-            Teleporting.Instance.onChangeVisabilityTeleportsEvent += IsVisable;
+            //Teleporting.Instance.onChangeVisabilityTeleportsEvent += IsVisable; moved to 'Start' method
         }
 
         protected virtual void Start()
         {
+            Teleporting.Instance.onChangeVisabilityTeleportsEvent += IsVisable;
             IsVisable(false);
         }
 
