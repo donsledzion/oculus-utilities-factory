@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 123
   m_IsActive: 0
 --- !u!4 &1726194813117572519
 Transform:
@@ -92,12 +92,13 @@ GameObject:
   - component: {fileID: 1726194813212657000}
   - component: {fileID: 1726194813212656983}
   - component: {fileID: 1726194813212656982}
+  - component: {fileID: 2086060050}
   m_Layer: 0
   m_Name: '[Teleporting]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &1726194813212657000
 Transform:
@@ -242,3 +243,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &2086060050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726194813212657001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44d632fc130c7e4898fc364525a3f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forthRange: 0.5
+  curveHeight: 1.26
+  teleportObject: {fileID: 0}

@@ -393,6 +393,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4527368504392492, guid: a87f0180d46fd334b9025d0314a0dc70, type: 3}
   m_PrefabInstance: {fileID: 296138508}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &349113005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1235180761666570, guid: a87f0180d46fd334b9025d0314a0dc70, type: 3}
+  m_PrefabInstance: {fileID: 296138508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &349113006
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349113005}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300004, guid: 47616bd0cda748d4cbedcfc908506b9d, type: 3}
 --- !u!1 &448982262
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,13 +547,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2086060050, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
+      propertyPath: teleportObject
+      value: 
+      objectReference: {fileID: 1133139645}
     - target: {fileID: 1726194813117572538, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 123
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726194813212656982, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: m_Positions.Array.size
-      value: 2
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
       propertyPath: leftHand
@@ -545,24 +564,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 126592661}
     - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: forthRange
-      value: 0.657
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: curveHeight
-      value: 0.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: teleportCurve
-      value: 
-      objectReference: {fileID: 2086060050}
-    - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
       propertyPath: teleportObject
       value: 
       objectReference: {fileID: 1133139645}
     - target: {fileID: 1726194813212656983, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
       propertyPath: teleportingCheckLayer.m_Bits
-      value: 65
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1726194813212657000, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
       propertyPath: m_RootOrder
@@ -611,10 +618,6 @@ PrefabInstance:
     - target: {fileID: 1726194813212657001, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
       propertyPath: m_Name
       value: '[Teleporting]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726194813212657001, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 123
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
@@ -1308,6 +1311,7 @@ GameObject:
   - component: {fileID: 2076465618}
   - component: {fileID: 2076465620}
   - component: {fileID: 2076465619}
+  - component: {fileID: 2076465621}
   m_Layer: 0
   m_Name: Drywall Panel (2)
   m_TagString: Untagged
@@ -1379,27 +1383,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076465617}
   m_Mesh: {fileID: 4300004, guid: 47616bd0cda748d4cbedcfc908506b9d, type: 3}
---- !u!1 &2086060049 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1726194813212657001, guid: 329a5b88a030adb42a79a8f43d89f633, type: 3}
-  m_PrefabInstance: {fileID: 692554447}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2086060050
-MonoBehaviour:
+--- !u!64 &2076465621
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086060049}
+  m_GameObject: {fileID: 2076465617}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e44d632fc130c7e4898fc364525a3f80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forthRange: 0.5
-  curveHeight: 1.26
-  playerElevation: 0
-  teleportObject: {fileID: 1133139645}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300004, guid: 47616bd0cda748d4cbedcfc908506b9d, type: 3}
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0

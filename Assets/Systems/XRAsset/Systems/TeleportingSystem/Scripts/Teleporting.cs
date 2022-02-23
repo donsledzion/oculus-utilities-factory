@@ -152,6 +152,13 @@ namespace TeleportingSystem
                     Teleporter = null;
                     ChangeTeleportingColor(false);
                 }
+                // ===================================================================================
+                // Drawing marker on the walls - perpendicular to it's surface
+                destinationPoint.gameObject.transform.rotation *= 
+                    Quaternion.FromToRotation(destinationPoint.gameObject.transform.up, hit.normal);
+                // ===================================================================================
+
+
             }
             else
             {
