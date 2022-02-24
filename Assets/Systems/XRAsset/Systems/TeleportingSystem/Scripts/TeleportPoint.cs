@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
+using UnityEngine.UI;
 
 namespace TeleportingSystem
 {
@@ -18,14 +19,31 @@ namespace TeleportingSystem
         [SerializeField] Material lockedMaterial = default;
         [SerializeField] Material defaultMaterial = default;
 
+        [Space]
+        [SerializeField] Color colorAvailable;
+        [SerializeField] Color colorLocked;
+
+        [Space]
+        [TextArea]
+        [SerializeField] string textAvailable;
+        [TextArea]
+        [SerializeField] string textLocked;
+
+        [Space]
+        [SerializeField] GameObject iconObject;
+        [SerializeField] Mesh iconLockedMesh;
+        [SerializeField] Mesh iconAvailableMesh;
+        [SerializeField] Text canvasText;
+
         public override void IsVisable(bool isVisable)
         {
-            gameObject.SetActive(isVisable);
+            CheckAvailability();
+
+            gameObject.SetActive(isVisable || alwaysVisible);
 
             if (IsLocked)
             {
                 meshRenderer.material = lockedMaterial;
-                arrowObject.SetActive(false);
             }
             else
             {
@@ -56,6 +74,24 @@ namespace TeleportingSystem
             if (rotateToForward)
             {
                 DrawArrow.ForGizmo(transform.position + DEBUG_OFFSET, transform.forward, Color.blue);
+            }
+        }
+
+        private void CheckAvailability()
+        {
+            if (IsLocked)
+            {
+                iconObject.GetComponent<MeshRenderer>().material = lockedMaterial;
+                iconObject.GetComponent<MeshFilter>().mesh = iconLockedMesh;
+                canvasText.color = colorLocked;
+                if(!string.IsNullOrEmpty(textLocked)) canvasText.text = textLocked;
+            }
+            else
+            {
+                iconObject.GetComponent<MeshRenderer>().material = defaultMaterial;
+                iconObject.GetComponent<MeshFilter>().mesh = iconAvailableMesh;
+                canvasText.color = colorAvailable;
+                if (!string.IsNullOrEmpty(textAvailable)) canvasText.text = textAvailable;
             }
         }
     }

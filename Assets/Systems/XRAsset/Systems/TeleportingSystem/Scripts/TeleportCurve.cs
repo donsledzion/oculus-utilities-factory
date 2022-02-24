@@ -53,7 +53,8 @@ public class TeleportCurve : MonoBehaviour
             playerElevation = teleportObject.transform.position.y;
             if (destPos.y != playerElevation)
                 peak.y += destPos.y;
-
+            if (destPos.y < playerElevation)
+                peak.y += (playerElevation - destPos.y);
             // discretization vector to divide curve into equal parts
             Vector3 interVector = (destPos - startPos) / (density - 1);
 
@@ -67,10 +68,10 @@ public class TeleportCurve : MonoBehaviour
                 // to generate curve we need to calculate it's height
                 // in every discrete section step:
                 if (progres < peak.x) //discretization before curve's peak
-                    pointHeight += (peak.y - startPos.y + playerElevation) 
+                    pointHeight += (peak.y - startPos.y/* + playerElevation*/) 
                                     * Mathf.Sin(progres / peak.x * Mathf.PI / 2);
                 else // discretization after peak is reached
-                    pointHeight = (peak.y + playerElevation - destPos.y) 
+                    pointHeight = (peak.y/* + playerElevation*/ - destPos.y) 
                                     * Mathf.Sin(((progres - peak.x) / (1 - peak.x)) 
                                     * Mathf.PI / 2 + Mathf.PI / 2) 
                                     + destPos.y;

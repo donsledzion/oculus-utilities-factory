@@ -40,7 +40,13 @@ namespace TeleportingSystem
         private Vector3 raycastPosition = Vector3.zero;
         private MeshRenderer destinationPointMeshRenderer;
 
+
         // ==========================================================================
+        private MeshFilter destinationPointMeshFilter;
+        [Space]
+        [SerializeField] Mesh validDestinationMesh = default;
+        [SerializeField] Mesh invalidDestinationMesh = default;
+        [Space]
         private TeleportCurve teleportCurve; // Needed to add teleportCurve component
         // ==========================================================================
 
@@ -83,6 +89,7 @@ namespace TeleportingSystem
         {
             destinationPointMeshRenderer = destinationPoint.GetComponent<MeshRenderer>();
             //==================================================================================
+            destinationPointMeshFilter = destinationPoint.GetComponent<MeshFilter>();
             teleportCurve = GetComponent<TeleportCurve>(); // Assigning teleportCurve reference
             //==================================================================================
         }
@@ -154,8 +161,8 @@ namespace TeleportingSystem
                 }
                 // ===================================================================================
                 // Drawing marker on the walls - perpendicular to it's surface
-                destinationPoint.gameObject.transform.rotation *= 
-                    Quaternion.FromToRotation(destinationPoint.gameObject.transform.up, hit.normal);
+                destinationPoint.gameObject.transform.rotation = 
+                    Quaternion.FromToRotation(destinationPoint.gameObject.transform.up, hit.normal)* destinationPoint.gameObject.transform.rotation;
                 // ===================================================================================
 
 
@@ -203,11 +210,17 @@ namespace TeleportingSystem
             if (isGood)
             {
                 linerRenderer.material = goodLineRendererMaterial;
+                // ===============================================================
+                destinationPointMeshFilter.mesh = validDestinationMesh;
+                // ===============================================================
                 destinationPointMeshRenderer.material = goodDestinationPoint;
             }
             else
             {
                 linerRenderer.material = badLineRendererMaterial;
+                // ===============================================================
+                destinationPointMeshFilter.mesh = invalidDestinationMesh;
+                // ===============================================================
                 destinationPointMeshRenderer.material = badDestinationPoint;
             }
         }

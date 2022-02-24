@@ -6,19 +6,16 @@ namespace TeleportingSystem
     public abstract class Teleporter : MonoBehaviour, ITeleport
     {
         [SerializeField] bool isLocked = false;
+        [SerializeField] protected bool alwaysVisible = false;
         [SerializeField] protected UnityEvent onTeleport = default;
 
         public bool IsLocked { get => isLocked; set => isLocked = value; }
 
-        protected virtual void Awake()
-        {
-            //Teleporting.Instance.onChangeVisabilityTeleportsEvent += IsVisable; moved to 'Start' method
-        }
-
         protected virtual void Start()
         {
             Teleporting.Instance.onChangeVisabilityTeleportsEvent += IsVisable;
-            IsVisable(false);
+            if (!alwaysVisible)
+                IsVisable(false);
         }
 
         protected virtual void OnDestroy()
